@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 import psycopg2
 import os
+from dotenv import load_dotenv
+
+# Carregar variáveis do .env
+load_dotenv()
 
 DB_HOST = os.getenv("DB_HOST")
 DB_NAME = os.getenv("DB_NAME")

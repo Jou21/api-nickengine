@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from flask import Flask, jsonify
 import psycopg2
 import os
 from dotenv import load_dotenv
@@ -28,20 +28,25 @@ except Exception as e:
     print(f"Erro ao conectar ao banco de dados: {e}")
     raise
 
-app = FastAPI()
+# Inicializar o Flask
+app = Flask(__name__)
 
-@app.get("/")
+@app.route('/')
 def read_root():
-    return {"message": "API de Nicknames está rodando!"}
+    return jsonify({"message": "API de Nicknames está rodando!"})
 
-@app.get("/nicknames")
+@app.route('/nicknames')
 def get_nicknames():
     try:
         cur = conn.cursor()
         cur.execute("SELECT * FROM nicknames;")
         rows = cur.fetchall()
         cur.close()
-        return [{"id": row[0], "nickname": row[1], "category": row[2], "popularity": row[3]} for row in rows]
+        # Retorna os resultados como um JSON
+        return jsonify([{"id": row[0], "nickname": row[1], "category": row[2], "popularity": row[3]} for row in rows])
     except Exception as e:
         print(f"Erro ao executar a consulta: {e}")
-        return {"error": "Erro ao buscar os nicknames"}
+        return jsonify({"error": "Erro ao buscar os nicknames"})
+
+if __name__ == '__main__':
+    app.run(debug=True)

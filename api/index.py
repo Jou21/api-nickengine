@@ -30,7 +30,7 @@ except Exception as e:
 
 # Inicializar o Flask
 app = Flask(__name__)
-
+ 
 @app.route('/')
 def read_root():
     return jsonify({"message": "API de Nicknames está rodando!"})

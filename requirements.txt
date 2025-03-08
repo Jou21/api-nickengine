@@ -1,3 +1,3 @@
-psycopg2
-dotenv
-flask
+Flask
+psycopg2-binary
+python-dotenv
